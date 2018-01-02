@@ -9,6 +9,8 @@ var http = require('http');
 var path = require('path');
 var pug = require('pug');
 var passport = require('passport');
+var strava = require('strava-v3');
+
 var StravaStrategy = require('passport-strava-oauth2').Strategy;
 
 var app = express();
@@ -24,7 +26,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new StravaStrategy({
     clientID: "22263",
     clientSecret: "f3e6e881b8cc3132349d3bb9033be049a7e60fcc",
-    callbackURL: "http://127.0.0.1:3000/auth/strava/callback"
+    callbackURL: "/auth/strava/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
@@ -71,32 +73,63 @@ app.get('/', routes.index);
 
 app.get('/auth/strava',
   passport.authenticate('strava', { scope: ['public'] }),
-  function(req, res){
+  function(req, res) {
   });
 
 app.get('/auth/strava/callback', 
   passport.authenticate('strava', { failureRedirect: '/' }),
   function(req, res) {
-    console.log('im here a');
     res.redirect('/stats');
   });
 
-app.get('/stats',
-    function(req, res){
+app.get('/stats', ensureAuthenticated, 
+    function(req, res) {
 
-      res.render('stats');
+      var user = req.user;
+
+      console.log(JSON.stringify(req.user));
+
+      strava.athletes.stats({id:user.id, access_token:user.token},
+        function(err, payload, limits) {
+
+        console.log(JSON.stringify(payload));
+
+        var athletes = [];
+
+        strava.athletes.listFollowers({id:user.id, access_token:user.token},
+          function(err, payload, limits) {
+  
+          console.log(JSON.stringify(payload));
+  
+          payload.forEach(function(item, index, array) {
+            athletes.push(item);
+            
+          });
+  
+          res.render('stats', { user: user, athletes: athletes});
+  
+        });
+  
+
+      });
 
 });
 
 app.get('/logout', function(req, res){
-
     req.logout();
-  
     res.redirect('/');
-  
   });
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port: \'' + app.get('port') +'\'');
 });
 
+function ensureAuthenticated(req, res, next) {
+  
+  if (req.isAuthenticated()) { 
+      return next(); 
+  }
+
+  res.redirect('/')
+
+}
