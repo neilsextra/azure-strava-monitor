@@ -15,9 +15,16 @@ block content
     div#competitor
       div(style="position:relative; top:30px; left:30px;")
         img(src="/icons/user.svg" style="width:140px; height:140px;")
-      div(style="position:relative; top:30px; left:80px;")
-        p #{user.name.givenName} #{user.name.familyName}
-
+        p 
+        b #{user.name.givenName} #{user.name.familyName}
+      div(style="position:relative; top:30px; left:120px;")
+        p Rides:
+        p Distance:
+        p Elapsed:
+      div(style="position:relative; top:30px; left:220px;")
+        p #{stats.ytd_ride_totals.count}
+        p #{stats.ytd_ride_totals.distance}
+        p #{stats.ytd_ride_totals.elapsed_time}
     div#competitors
       each athlete in athletes
         div(style="border: solid; height:150px; margin:20px; padding:20px; width:100%;")

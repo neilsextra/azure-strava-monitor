@@ -86,14 +86,13 @@ app.get('/stats', ensureAuthenticated,
     function(req, res) {
 
       var user = req.user;
-
-      console.log(JSON.stringify(req.user));
-
+ 
       strava.athletes.stats({id:user.id, access_token:user.token},
         function(err, payload, limits) {
 
         console.log(JSON.stringify(payload));
 
+        var stats = payload;
         var athletes = [];
 
         strava.athletes.listFollowers({id:user.id, access_token:user.token},
@@ -106,7 +105,7 @@ app.get('/stats', ensureAuthenticated,
             
           });
   
-          res.render('stats', { user: user, athletes: athletes});
+          res.render('stats', { user: user, stats:stats, athletes: athletes});
   
         });
   
