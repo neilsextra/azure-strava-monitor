@@ -13,6 +13,8 @@ var strava = require('strava-v3');
 
 var StravaStrategy = require('passport-strava-oauth2').Strategy;
 
+var config = require('./config.json');
+
 var app = express();
 
 passport.serializeUser(function(user, done) {
@@ -24,14 +26,13 @@ passport.deserializeUser(function(obj, done) {
 });
 
 passport.use(new StravaStrategy({
-    clientID: "22263",
-    clientSecret: "f3e6e881b8cc3132349d3bb9033be049a7e60fcc",
+    clientID: config.clientID,
+    clientSecret: config.clientSecret,
     callbackURL: "/auth/strava/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
-      console.log("im here a");
-      return done(null, profile);
+     return done(null, profile);
     });
   }
 ));
@@ -83,41 +84,39 @@ app.get('/auth/strava/callback',
   });
 
 app.get('/stats', ensureAuthenticated, 
-    function(req, res) {
+  function(req, res) {
+    getStats(req, function(error, user, stats, athletes) {
 
-      var user = req.user;
- 
-      strava.athletes.stats({id:user.id, access_token:user.token},
-        function(err, payload, limits) {
+      if (!error) {
 
-        console.log(JSON.stringify(payload));
+        var summary = {
+          ride : stats.ytd_ride_totals.count,
 
-        var stats = payload;
-        var athletes = [];
+        };
 
-        strava.athletes.listFollowers({id:user.id, access_token:user.token},
-          function(err, payload, limits) {
-  
-          console.log(JSON.stringify(payload));
-  
-          payload.forEach(function(item, index, array) {
-            athletes.push(item);
-            
-          });
-  
-          res.render('stats', { user: user, stats:stats, athletes: athletes});
-  
-        });
-  
+        res.render('stats', { user: user, stats:stats, athletes: athletes});
+      }
 
-      });
+    });
+
+});
+
+app.get('/update', ensureAuthenticated, 
+  function(req, res) {
+    getStats(req, function(error, user, stats, athletes) {
+
+    if (!error) {
+      res.render('stats', { user: user, stats:stats, athletes: athletes});
+    }
+
+  });
 
 });
 
 app.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
-  });
+});
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port: \'' + app.get('port') +'\'');
@@ -130,5 +129,39 @@ function ensureAuthenticated(req, res, next) {
   }
 
   res.redirect('/')
+
+}
+
+function getStats(req, callback) {
+  var user = req.user;
+
+  strava.athletes.stats({id:user.id, access_token:user.token},
+    function(err, payload, limits) {
+
+  //  console.log(JSON.stringify(payload));
+
+    var stats = payload;
+    var athletes = [];
+
+    strava.athletes.listFollowers({id:user.id, access_token:user.token},
+      function(err, payload, limits) {
+
+//      console.log(JSON.stringify(payload));
+
+        payload.forEach(function(item, index, array) {
+        athletes.push(item);  
+
+      });
+
+      strava.athlete.listRoutes({id:user.id, access_token:user.token},
+        function(err, payload, limits) {
+ 
+          callback(null, user, stats, athletes);
+
+        });
+
+    });
+
+  });
 
 }

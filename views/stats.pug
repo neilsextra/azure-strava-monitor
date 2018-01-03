@@ -14,22 +14,42 @@ block content
 
     div#competitor
       div(style="position:relative; top:30px; left:30px;")
-        img(src="/icons/user.svg" style="width:140px; height:140px;")
+        if user._json.profile == 'avatar/athlete/large.png'
+          img(src="/icons/user.svg" style="width:140px; height:140px;")
+        else
+          img(src=`${user.profile}` style="width:140px; height:140px;")
         p 
         b #{user.name.givenName} #{user.name.familyName}
-      div(style="position:relative; top:30px; left:120px;")
+      div(style="position:relative; top:5px; left:100px;")
+        p
+        b Cycling
+      div(style="position:relative; top:55px; left:40px;")
         p Rides:
         p Distance:
         p Elapsed:
-      div(style="position:relative; top:30px; left:220px;")
+      div(style="position:relative; top:55px; left:140px;")
         p #{stats.ytd_ride_totals.count}
         p #{stats.ytd_ride_totals.distance}
         p #{stats.ytd_ride_totals.elapsed_time}
+      div(style="position:relative; top:5px; left:350px;")
+        p
+        b Points
+      div(style="position:relative; top:55px; left:310px;")
+        p Ride:
+        p Distance:
+        p Total:
+
+    div(style="position: absolute; top:324px; right:50px; border: solid; color: white; padding:10px;")
+      a(href="/update" style="color: white; font-size: 32px; font-weight: bold; text-decoration: none; ") Update
+
     div#competitors
       each athlete in athletes
         div(style="border: solid; height:150px; margin:20px; padding:20px; width:100%;")
           div(style="position:absolute; margin:20px; opacity:1.0;")
-            img(src=`${athlete.profile}` style="width:120px; height:120px;")
+            if athlete.profile == 'avatar/athlete/large.png'
+              img(src="/icons/user.svg" style="width:120px; height:120px;")
+            else
+              img(src=`${athlete.profile}` style="width:120px; height:120px;")
           div(style="position:absolute; left:220px; opacity:1.0; padding:0px;")
             p #{athlete.firstname} #{athlete.lastname}
             p #{athlete.city}, #{athlete.state}, #{athlete.country}
