@@ -146,19 +146,21 @@ function getStats(req, callback) {
     strava.athletes.listFollowers({id:user.id, access_token:user.token},
       function(err, payload, limits) {
 
-//      console.log(JSON.stringify(payload));
+ //       console.log(JSON.stringify(payload));
 
         payload.forEach(function(item, index, array) {
-        athletes.push(item);  
-
-      });
-
-      strava.athlete.listRoutes({id:user.id, access_token:user.token},
-        function(err, payload, limits) {
- 
-          callback(null, user, stats, athletes);
+          athletes.push(item);  
 
         });
+
+        strava.athlete.listRoutes({id:user.id, access_token:user.token},
+          function(err, payload, limits) {
+            
+            console.log(JSON.stringify(payload));
+
+            callback(null, user, stats, athletes);
+
+          });
 
     });
 

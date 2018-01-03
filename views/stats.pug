@@ -9,6 +9,10 @@ block content
       img(src="/icons/bicycle-rider.svg" style="height:48px; width:48px;")
     div(style="position: absolute; top:-2px; left: 120px; color:white; font-size:48px;")
       p Competitor - #{user.displayName}
+    
+    div(style="position: absolute; top:40px; right:200px; border: solid; color: white; padding:10px;")
+      a(href="/update" style="color: white; font-size: 32px; font-weight: bold; text-decoration: none; ") Update
+
     div(style="position: absolute; top:40px; right:50px; border: solid; color: white; padding:10px;")
       a(href="/logout" style="color: white; font-size: 32px; font-weight: bold; text-decoration: none; ") Logout
 
@@ -27,7 +31,7 @@ block content
         p Rides:
         p Distance:
         p Elapsed:
-      div(style="position:relative; top:55px; left:140px;")
+      div(style="position:relative; top:55px; left:110px;")
         p #{stats.ytd_ride_totals.count}
         p #{stats.ytd_ride_totals.distance}
         p #{stats.ytd_ride_totals.elapsed_time}
@@ -39,8 +43,10 @@ block content
         p Distance:
         p Total:
 
-    div(style="position: absolute; top:324px; right:50px; border: solid; color: white; padding:10px;")
-      a(href="/update" style="color: white; font-size: 32px; font-weight: bold; text-decoration: none; ") Update
+      div(style="position:absolute; top:30px; right:30px;")
+        img(src="/icons/trophy-cup.svg" style="height:200px; width:200px;")
+      div(style="position:absolute; top:-20px; right:84px; width:90px; color:black; font-size:64px; text-align:center; font-weight: bold;")
+        p 2
 
     div#competitors
       each athlete in athletes
@@ -53,4 +59,7 @@ block content
           div(style="position:absolute; left:220px; opacity:1.0; padding:0px;")
             p #{athlete.firstname} #{athlete.lastname}
             p #{athlete.city}, #{athlete.state}, #{athlete.country}
-
+          
+          div(style="position:absolute; top:50px; right:50px; width:145px; height:145px; padding:0px; color:white; border:solid; font-size:84px; background-color:white; opacity:0.7; text-align:center; font-weight: bold;")
+            p(style="color:black; margin-top:30px;") !
+ 
