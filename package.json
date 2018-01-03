@@ -11,5 +11,5 @@
     "strava-v3": "1.14.0",
     "passport-strava-oauth2": "0.1.3",
     "azure-storage": "2.5.0"
-   }
+  }
 }
