@@ -24,24 +24,28 @@ block content
           img(src=`${user.profile}` style="width:140px; height:140px;")
         p 
         b #{user.name.givenName} #{user.name.familyName}
-      div(style="position:relative; top:5px; left:100px;")
+      div(style="position:relative; top:-10px; left:130px; font-size:32px; ")
         p
         b Cycling
       div(style="position:relative; top:55px; left:40px;")
         p Rides:
         p Distance:
         p Elapsed:
-      div(style="position:relative; top:55px; left:110px;")
+      div(style="position:relative; top:55px; left:70px;")
         p #{stats.ytd_ride_totals.count}
         p #{stats.ytd_ride_totals.distance}
         p #{stats.ytd_ride_totals.elapsed_time}
-      div(style="position:relative; top:5px; left:350px;")
+      div(style="position:relative; top:-10px; left:250px; font-size:32px; ")
         p
         b Points
-      div(style="position:relative; top:55px; left:310px;")
+      div(style="position:relative; top:55px; left:170px;")
         p Ride:
         p Distance:
         p Total:
+      div(style="position:relative; top:55px; left:200px;")
+        p 0
+        p 0
+        p 0
 
       div(style="position:absolute; top:30px; right:30px;")
         img(src="/icons/trophy-cup.svg" style="height:200px; width:200px;")
