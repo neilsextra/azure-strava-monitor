@@ -86,7 +86,7 @@ app.get('/auth/strava/callback',
 app.get('/stats', ensureAuthenticated, 
   function(req, res) {
     
-    getStats(req, function(error, user, stats, athletes) {
+    getStats(req, function(error, user, stats, activities) {
 
       if (!error) {
 
@@ -95,7 +95,7 @@ app.get('/stats', ensureAuthenticated,
 
         };
 
-        res.render('stats', { user: user, stats:stats, athletes: athletes});
+        res.render('stats', { user: user, stats:stats, activities: activities});
       }
 
     });
@@ -104,10 +104,10 @@ app.get('/stats', ensureAuthenticated,
 
 app.get('/update', ensureAuthenticated, 
   function(req, res) {
-    getStats(req, function(error, user, stats, athletes) {
+    getStats(req, function(error, user, stats, activities) {
 
     if (!error) {
-      res.render('stats', { user: user, stats:stats, athletes: athletes});
+      res.render('stats', { user: user, stats:stats, activities: activities});
     }
 
   });
@@ -146,7 +146,6 @@ function getStats(req, callback) {
  
     strava.athlete.listActivities({id:user.id, access_token:user.token},
       function(err, payload, limits) {
- 
         console.log("----");
  
         console.log(JSON.stringify(payload));
