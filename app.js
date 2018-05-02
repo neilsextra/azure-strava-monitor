@@ -85,6 +85,7 @@ app.get('/auth/strava/callback',
 
 app.get('/stats', ensureAuthenticated, 
   function(req, res) {
+    
     getStats(req, function(error, user, stats, athletes) {
 
       if (!error) {
@@ -138,31 +139,21 @@ function getStats(req, callback) {
   strava.athletes.stats({id:user.id, access_token:user.token},
     function(err, payload, limits) {
 
-  //  console.log(JSON.stringify(payload));
-
     var stats = payload;
-    var athletes = [];
-
-    strava.athletes.listFollowers({id:user.id, access_token:user.token},
+    console.log(JSON.stringify(user));
+    console.log("----");
+    console.log(JSON.stringify(payload));
+ 
+    strava.athlete.listActivities({id:user.id, access_token:user.token},
       function(err, payload, limits) {
+ 
+        console.log("----");
+ 
+        console.log(JSON.stringify(payload));
 
- //       console.log(JSON.stringify(payload));
+        callback(null, user, stats, payload);
 
-        payload.forEach(function(item, index, array) {
-          athletes.push(item);  
-
-        });
-
-        strava.athlete.listRoutes({id:user.id, access_token:user.token},
-          function(err, payload, limits) {
-            
-            console.log(JSON.stringify(payload));
-
-            callback(null, user, stats, athletes);
-
-          });
-
-    });
+      });
 
   });
 

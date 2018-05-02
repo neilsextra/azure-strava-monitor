@@ -21,7 +21,7 @@ block content
         if user._json.profile == 'avatar/athlete/large.png'
           img(src="/icons/user.svg" style="width:140px; height:140px;")
         else
-          img(src=`${user.profile}` style="width:140px; height:140px;")
+          img(src=`${user.photos[0].value}` style="z-order:10; width:140px; height:140px; opacity:1.0;")
         p 
         b #{user.name.givenName} #{user.name.familyName}
       div(style="position:relative; top:-10px; left:130px; font-size:32px; ")
@@ -35,14 +35,25 @@ block content
         p #{stats.ytd_ride_totals.count}
         p #{stats.ytd_ride_totals.distance}
         p #{stats.ytd_ride_totals.elapsed_time}
-      div(style="position:relative; top:-10px; left:250px; font-size:32px; ")
+      div(style="position:relative; top:-10px; left:130px; font-size:32px; ")
+        p
+        b Running
+      div(style="position:relative; top:55px; left:170px;")
+        p Runs:
+        p Distance:
+        p Elapsed:
+      div(style="position:relative; top:55px; left:200px;")
+        p #{stats.ytd_run_totals.count}
+        p #{stats.ytd_run_totals.distance}
+        p #{stats.ytd_run_totals.elapsed_time}
+      div(style="position:relative; top:-10px; left:350px; font-size:32px; ")
         p
         b Points
-      div(style="position:relative; top:55px; left:170px;")
+      div(style="position:relative; top:55px; left:270px;")
         p Ride:
         p Distance:
         p Total:
-      div(style="position:relative; top:55px; left:200px;")
+      div(style="position:relative; top:55px; left:300px;")
         p 0
         p 0
         p 0
