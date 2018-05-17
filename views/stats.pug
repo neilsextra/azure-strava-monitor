@@ -11,7 +11,7 @@ block content
       p Competitor - #{user.displayName}
     
     div(style="position: absolute; top:40px; right:200px; border: solid; color: white; padding:10px;")
-      a(href="/update" style="color: white; font-size: 32px; font-weight: bold; text-decoration: none; ") Update
+      a(href="/register" style="color: white; font-size: 32px; font-weight: bold; text-decoration: none; ") Register
 
     div(style="position: absolute; top:40px; right:50px; border: solid; color: white; padding:10px;")
       a(href="/logout" style="color: white; font-size: 32px; font-weight: bold; text-decoration: none; ") Logout
@@ -24,44 +24,35 @@ block content
           img(src=`${user.photos[0].value}` style="z-order:10; width:140px; height:140px; opacity:1.0;")
         p 
         b #{user.name.givenName} #{user.name.familyName}
-      div(style="position:absolute; top:20px; left:330px; font-size:32px; ")
+      div(style="position:absolute; top:20px; left:250px; font-size:32px; ")
         b Cycling
-      div(style="position:absolute; top:50px; left:360px;")
+      div(style="position:absolute; top:50px; left:280px;")
         p Rides:
         p Distance:
         p Elapsed:
-      div(style="position:absolute; top:50px; left:480px;")
+      div(style="position:absolute; top:50px; left:390px;")
         p #{stats.ytd_ride_totals.count}
-        p #{stats.ytd_ride_totals.distance}
-        p #{stats.ytd_ride_totals.elapsed_time}
-      div(style="position:absolute; top:20px; left:610px; font-size:32px; ")
+        p #{(stats.ytd_ride_totals.distance/1000).toFixed(2)}Kms
+        p #{(stats.ytd_ride_totals.elapsed_time/60).toFixed(2)}Mins
+      div(style="position:absolute; top:20px; left:570px; font-size:32px; ")
         b Running
-      div(style="position:absolute; top:50px; left:640px;")
+      div(style="position:absolute; top:50px; left:610px;")
         p Runs:
         p Distance:
         p Elapsed:
-      div(style="position:absolute; top:50px; left:760px;")
+      div(style="position:absolute; top:50px; left:720px;")
         p #{stats.ytd_run_totals.count}
-        p #{stats.ytd_run_totals.distance}
-        p #{stats.ytd_run_totals.elapsed_time}
-      div(style="position:absolute; top:20px; left:890px; font-size:32px; ")
-        b Swimming
-      div(style="position:absolute; top:50px; left:920px;")
-        p Swims:
-        p Distance:
-        p Elapsed:
-      div(style="position:absolute; top:50px; left:1040px;")
-        p #{stats.ytd_swim_totals.count}
-        p #{stats.ytd_swim_totals.distance}
-        p #{stats.ytd_swim_totals.elapsed_time}
+        p #{(stats.ytd_run_totals.distance/1000).toFixed(2)}Kms
+        p #{(stats.ytd_run_totals.elapsed_time/60).toFixed(2)}Mins
+      div(style="position:absolute; top:20px; left:750px; font-size:32px; ")
         
-      div(style="position:absolute; top:20px; right:600px; font-size:32px; ")
+      div(style="position:absolute; top:20px; right:340px; font-size:32px; ")
         b Points
-      div(style="position:absolute; top:50px; right:570px;")
+      div(style="position:absolute; top:50px; right:310px;")
         p Ride:
         p Distance:
         p Total:
-      div(style="position:absolute; top:50px; right:540px;")
+      div(style="position:absolute; top:50px; right:280px;")
         p 0
         p 0
         p 0
@@ -73,18 +64,25 @@ block content
 
     div#competitors
       each activity in activities
-        div(style="border: solid; height:350px; margin:20px; padding:20px; width:100%;")
-          div(style="position:relative; width:100%; height:100%;")
-            div(style="position:absolute; top:10px; left:20px;")
-              p Name:
-              p Date:
-              p Distance:
-              p Moving (Time):
-              p Elapsed (Time):
-            div(style="position:absolute; top:10px; left:230px;")
-              p #{activity.name} 
-              p #{activity.start_date}
-              p #{activity.distance}
-              p #{activity.moving_time}
-              p #{activity.elapsed_time}
-    
+        div(style="width:95%;")
+          div(style="border: solid; height:350px; margin:20px; padding:20px; width:100%;")
+            div(style="position:relative; width:100%; height:100%;")
+              div(style="position:absolute; top:10px; left:20px;")
+                p Name:
+                p Date:
+                p Distance:
+                p Moving (Time):
+                p Elapsed (Time):
+              div(style="position:absolute; top:10px; left:230px;")
+                p #{activity.name} 
+                p #{activity.start_date}
+                p #{activity.distance}
+                p #{activity.moving_time}
+                p #{activity.elapsed_time}
+
+  script(src="/modules/jquery/dist/jquery.min.js")
+  script(src="/modules/leaflet/dist/leaflet.js")  
+  script(src="/javascripts/responder.js")
+
+
+      

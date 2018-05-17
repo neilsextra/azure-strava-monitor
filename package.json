@@ -10,6 +10,8 @@
     "pug": "2.0.0-alpha6",
     "strava-v3": "1.14.0",
     "passport-strava-oauth2": "0.1.3",
-    "azure-storage": "2.5.0"
+    "azure-storage": "2.5.0",
+    "jquery":"^3.3.1",
+    "leaflet": "^1.3.1"
   }
 }
