@@ -10,10 +10,20 @@ var path = require('path');
 var pug = require('pug');
 var passport = require('passport');
 var strava = require('strava-v3');
-
 var StravaStrategy = require('passport-strava-oauth2').Strategy;
+var azure = require('azure-storage');
+
+var keys = {};
+
+// Get the Key - this file should never be checked in and may not be preset
+try {
+   keys = require('./keys.json');
+} catch (e) {
+}
 
 var config = require('./config.json');
+
+var tableSvc = azure.createTableService(process.env.AZURE_BLOB_SERVICE || config.blobService, process.env.AZURE_BLOB_KEY || keys.blobKey);      
 
 var app = express();
 
@@ -24,10 +34,17 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
 
 passport.use(new StravaStrategy({
     clientID: config.clientID,
-    clientSecret: config.clientSecret,
+    clientSecret: keys.clientSecret,
     callbackURL: "/auth/strava/callback"
   },
   function(accessToken, refreshToken, profile, done) {
@@ -97,6 +114,7 @@ app.get('/stats', ensureAuthenticated,
         };
 
         res.render('stats', { user: user, stats:stats, activities: activities});
+      
       }
 
     });
@@ -113,6 +131,10 @@ app.get('/update', ensureAuthenticated,
 
   });
 
+});
+
+app.get('/register', function(req, res){
+  res.render('OK');
 });
 
 app.get('/logout', function(req, res){

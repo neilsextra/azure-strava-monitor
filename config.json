@@ -1,7 +1,6 @@
 {
-    "tabKey" : "ueeY47IjZthiit45wMvVzecnqnkxJnoz0EPfxLHA5gJNGBKRuF7RsBOPHrQ2Ou2QBFNbj+RqP+k89srwPssDaQ==",
+    "blobService": "tsoblob1",
     "blobTable": "strava_monitor",
     "blobUri": "https://tsoblob1.blob.core.windows.net/",
-    "clientID": "22263",
-    "clientSecret": "f3e6e881b8cc3132349d3bb9033be049a7e60fcc"
-}
+    "clientID": "22263"
+ } 
